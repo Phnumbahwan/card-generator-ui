@@ -1,4 +1,5 @@
 import * as React from 'react';
+import axios from './axios';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -59,33 +60,43 @@ export default function InputForm() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        const res = await fetch('http://127.0.0.1/api/users', {
-            method: 'POST',
-            headers: {
-                'Accept' : 'application/json',
-                'Content-Type' : 'application/json'
-            },
-            body: JSON.stringify({
-                firstname: data.get('firstName'),
-                lastname: data.get('lastName'),
-                email: data.get('email'),
-                age: data.get('age'),
-                gender: data.get('gender'),
-                school: data.get('school'),
-                address: data.get('address'),
-                organization: data.get('organization')
-            })
-        });
-        const response = await res.json();
-        setLastName(response.lastname);
-        setFirstName(response.firstname);
-        setEmail(response.email);
-        setAge(response.age);
-        setGender2(response.gender);
-        setSchool(response.school);
-        setAddress(response.address);
-        setOrganization(response.organization);
-        generateQrcode('http://127.0.0.1/api/users/' + response.id);
+        const formData = {
+                    firstname: data.get('firstName'),
+                    lastname: data.get('lastName'),
+                    email: data.get('email'),
+                    age: data.get('age'),
+                    gender: data.get('gender'),
+                    school: data.get('school'),
+                    address: data.get('address'),
+                    organization: data.get('organization')
+                };
+        const response = await axios.post('/users', formData);
+        // const res = await fetch('http://127.0.0.1/api/users', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Accept' : 'application/json',
+        //         'Content-Type' : 'application/json'
+        //     },
+        //     body: JSON.stringify({
+        //         firstname: data.get('firstName'),
+        //         lastname: data.get('lastName'),
+        //         email: data.get('email'),
+        //         age: data.get('age'),
+        //         gender: data.get('gender'),
+        //         school: data.get('school'),
+        //         address: data.get('address'),
+        //         organization: data.get('organization')
+        //     })
+        // });
+        setLastName(response.data.lastname);
+        setFirstName(response.data.firstname);
+        setEmail(response.data.email);
+        setAge(response.data.age);
+        setGender2(response.data.gender);
+        setSchool(response.data.school);
+        setAddress(response.data.address);
+        setOrganization(response.data.organization);
+        generateQrcode(process.env.REACT_APP_BACKEND_URL + '/api/users/' + response.data.id);
         console.log(response);
     };
 
