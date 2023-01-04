@@ -96,7 +96,7 @@ export default function InputForm() {
         setSchool(response.data.school);
         setAddress(response.data.address);
         setOrganization(response.data.organization);
-        generateQrcode(process.env.REACT_APP_BACKEND_URL + '/api/users/' + response.data.id);
+        generateQrcode('/api/users/' + response.data.id);
         console.log(response);
     };
 
