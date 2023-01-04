@@ -1,6 +1,4 @@
-import logo from './logo.svg';
 import './App.css';
-import {Button} from "@mui/material";
 import InputForm from "./components/InputForm";
 
 function App() {
